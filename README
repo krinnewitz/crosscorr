@@ -1,0 +1,24 @@
+0. Author
+=========
+The provided code is written by Kim Oliver Rinnewitz (krinnewitz@uos.de)
+
+1. Description
+==============
+This is an implementation of the cross correlation function for images.
+
+It uses OpenCV and there may be implementations with a better performance.
+The main purpose is to evaluate how successful this method can be used to 
+compare textures against each other in order to find the best match of a
+texture for a given plane in 3D reconstructions.
+
+2. Requirements
+===============
+You need to have a recent version of OpenCV installed. 
+
+3. Compiling
+============
+You can compile the program by entering the following commands on the command line:
+
+    mkdir build && cd build
+    cmake ..
+    make
