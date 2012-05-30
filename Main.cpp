@@ -33,6 +33,7 @@ using namespace std;
  */
 void crosscorrDFT(const cv::Mat &img1, const cv::Mat &img2, cv::Mat &dst)
 {
+
 	//Convert image1 from unsigned char to float matrix
 	cv::Mat fImg1;
 	img1.convertTo(fImg1, CV_32FC1);
@@ -41,24 +42,26 @@ void crosscorrDFT(const cv::Mat &img1, const cv::Mat &img2, cv::Mat &dst)
 	cv::Mat fImg2;
 	img2.convertTo(fImg2, CV_32FC1);
 
-	//TODO
-/*	
 	//Calculate the optimal size for the dft output.
 	//This increases speed.
 	cv::Size dftSize;
-	dftSize.width = cv::getOptimalDFTSize(img.cols);
-	dftSize.height = cv::getOptimalDFTSize(img.rows);
-	
-	//prepare the destination for the dft
-	dst = cv::Mat(dftSize, CV_32FC1, cv::Scalar::all(0));
-	
+	dftSize.width = cv::getOptimalDFTSize(img1.cols + img2.cols - 1);
+	dftSize.height = cv::getOptimalDFTSize(img1.rows + img2.rows -1);
+
+	//prepare the destination for the first dft
+	cv::Mat dft1 = cv::Mat(dftSize, CV_32FC1, cv::Scalar::all(0));
 	//transform the image into the frequency domain
-	cv::dft(fImg, dst);
-	//calculate DST * DST* (don't mind the fourth parameter. It is ignored)
-	cv::mulSpectrums(dst, dst, dst, cv::DFT_INVERSE, true);
+	cv::dft(fImg1, dft1);
+
+	//prepare the destination for the second dft
+	cv::Mat dft2 = cv::Mat(dftSize, CV_32FC1, cv::Scalar::all(0));
+	//transform the image into the frequency domain
+	cv::dft(fImg2, dft2);
+
+	//calculate DFT1 * DFT2* (don't mind the fourth parameter. It is ignored)
+	cv::mulSpectrums(dft1, dft2, dst, cv::DFT_INVERSE, true);
 	//transform the result back to the image domain 
 	cv::dft(dst, dst, cv::DFT_INVERSE | cv::DFT_SCALE);
-*/
 }
 
 
@@ -72,9 +75,12 @@ int main (int argc, char** argv)
 	}
 	else
 	{
-		cv::Mat src1 = cv::imread(argv[1]);
-		cv::Mat src2 = cv::imread(argv[2]);
+		cv::Mat src1 = cv::imread(argv[1], 0);
+		cv::Mat src2 = cv::imread(argv[2], 0);
 
+		cv::Mat crossc;
+
+		crosscorrDFT(src1, src2, crossc);
 		//TODO	
 
 		return EXIT_SUCCESS;
