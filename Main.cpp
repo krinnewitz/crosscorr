@@ -81,6 +81,12 @@ void crosscorrDFT(const cv::Mat& img1, const cv::Mat& img2, cv::Mat& C)
 
 	// now copy the result back to C.
 	tempA(cv::Rect(0, 0, C.cols, C.rows)).copyTo(C);
+
+	//norm the result
+	cv::multiply(A,A,A);
+	cv::multiply(B,B,B);
+	float denom = sqrt(cv::sum(A)[0]) * sqrt(cv::sum(B)[0]);	
+	C = C * (1/denom);
 }
 
 
