@@ -22,7 +22,7 @@ using namespace std;
  *		This implementation is quite fast and may be used for productive jobs. Cross
  *		correlation can be calculated by transforming the input images the frequency
  *		domain (getting the fourier transformations of the images), multiplying the
- *		first spectrum the conjugated complex of of the second spectrum  and
+ *		first spectrum with the second spectrum  and
  *		transforming the result back to the image domain. 
  *
  * \param 	img1	The first image. Must be one channel gray scale.
@@ -70,8 +70,8 @@ void crosscorrDFT(const cv::Mat& img1, const cv::Mat& img2, cv::Mat& C)
 	cv::dft(tempA, tempA, 0, A.rows);
 	cv::dft(tempB, tempB, 0, B.rows);
 
-	//calculate DFT1 * DFT2* (don't mind the fourth parameter. It is ignored)
-	cv::mulSpectrums(tempA, tempB, tempA, cv::DFT_INVERSE, true);
+	//calculate DFT1 * DFT2 (don't mind the fourth parameter. It is ignored)
+	cv::mulSpectrums(tempA, tempB, tempA, cv::DFT_INVERSE, false);
 
 	// transform the product back from the frequency domain.
 	// Even though all the result rows will be non-zero,
