@@ -3,7 +3,7 @@ project (CROSSCORR)
 
 FIND_PACKAGE( OpenCV REQUIRED )
 
-add_executable (crosscorr Main.cpp) 
+add_executable (crosscorr Main.cpp CrossCorr.cpp Texture.cpp) 
 
 TARGET_LINK_LIBRARIES( crosscorr ${OpenCV_LIBS} )
 
